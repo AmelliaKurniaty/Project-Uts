@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1D3C7"
+    tools:context=".IsiDataActivity"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="40dp"
+            android:text="BIODATA"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="48dp"
+            android:text="MERAH"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <ImageView
+            android:id="@+id/img_merah"
+            android:layout_width="98dp"
+            android:layout_height="97dp"
+            android:layout_marginTop="28dp"
+            android:background="#EC1212"
+            android:onClick="handleMerah"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.089"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_nama"
+            android:layout_width="217dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_merah"
+            app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nama1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            android:layout_width="217dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_merah"
+            app:layout_constraintTop_toBottomOf="@+id/layout_nama">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dojang1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dojang" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/group_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <RadioButton
+                android:id="@+id/radio_male"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="MALE" />
+
+            <RadioButton
+                android:id="@+id/radio_female"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="FEMALE" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="120dp"
+            android:text="BIRU"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_merah" />
+
+        <ImageView
+            android:id="@+id/img_biru"
+            android:layout_width="98dp"
+            android:layout_height="97dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp"
+            android:background="#132AAA"
+            android:onClick="handleBiru"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_nama2"
+            android:layout_width="217dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_merah"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nama2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_dojang2"
+            android:layout_width="217dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_biru"
+            app:layout_constraintTop_toBottomOf="@+id/layout_nama2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dojang2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dojang" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="80dp"
+            android:text="TAMBAH"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:onClick="handleTambah"
+            android:background="#177A8F"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_biru" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
