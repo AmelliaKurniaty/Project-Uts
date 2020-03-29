@@ -1,5 +1,6 @@
 package com.example.mobile_uts.Models;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,6 +9,8 @@ public class Fight implements Parcelable {
     private String dojang1, dojang2;
     private int jml1, jml2;
     private Type type;
+
+    private Uri img1, img2;
 
     public enum Type {
         EMPTY,
@@ -18,7 +21,7 @@ public class Fight implements Parcelable {
 
     }
 
-    public Fight(String nama1, String nama2, String dojang1, String dojang2, int jml1, int jml2, Type type) {
+    public Fight(String nama1, String nama2, String dojang1, String dojang2, int jml1, int jml2, Type type, Uri img1, Uri img2) {
         this.nama1 = nama1;
         this.nama2 = nama2;
         this.dojang1 = dojang1;
@@ -26,6 +29,8 @@ public class Fight implements Parcelable {
         this.jml1 = jml1;
         this.jml2 = jml2;
         this.type = type;
+        this.img1 = img1;
+        this.img2 = img2;
     }
 
     public String getNama1() {
@@ -58,6 +63,22 @@ public class Fight implements Parcelable {
 
     public void setDojang2(String dojang2) {
         this.dojang2 = dojang2;
+    }
+
+    public Uri getImg1() {
+        return img1;
+    }
+
+    public void setImg1(Uri img1) {
+        this.img1 = img1;
+    }
+
+    public Uri getImg2() {
+        return img2;
+    }
+
+    public void setImg2(Uri img2) {
+        this.img2 = img2;
     }
 
     public Type getType() {
