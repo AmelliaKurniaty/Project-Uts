@@ -8,8 +8,8 @@ public class Account {
     private List<Fight> fights;
 
     public Account() {
-        this.jml1 = jml1;
-        this.jml2 = jml2;
+        this.jml1 = 0;
+        this.jml2 = 0;
         this.fights = new ArrayList<>();
     }
 
@@ -17,16 +17,8 @@ public class Account {
         return jml1;
     }
 
-    public void setJml1(int jml1) {
-        this.jml1 = jml1;
-    }
-
     public int getJml2() {
         return jml2;
-    }
-
-    public void setJml2(int jml2) {
-        this.jml2 = jml2;
     }
 
     public List<Fight> getFights(){
@@ -36,7 +28,7 @@ public class Account {
         if (fight.getType() == Fight.Type.MALE){
             jml1 += fight.getJml1();
         }else if (fight.getType() == Fight.Type.FEMALE){
-            jml1 += fight.getJml1();
+            jml2 += fight.getJml2();
         }
         this.fights.add(fight);
     }
@@ -44,10 +36,12 @@ public class Account {
         Fight fight = fights.get(index);
         this.jml1 = 0;
         this.jml2 = 0;
-        if (fight.getType() == Fight.Type.MALE){
-            jml1 += fight.getJml1();
-        }else if (fight.getType() == Fight.Type.FEMALE){
-            jml2 += fight.getJml2();
+        for (Fight f : this.fights){
+            if (fight.getType() == Fight.Type.MALE){
+                jml1 += fight.getJml1();
+            }else if (fight.getType() == Fight.Type.FEMALE) {
+                jml2 += fight.getJml2();
+            }
         }
     }
     public void removeFight(int index){
@@ -55,7 +49,7 @@ public class Account {
         if (fight.getType() == Fight.Type.MALE){
             jml1 -= fight.getJml1();
         }else if (fight.getType() == Fight.Type.FEMALE){
-            jml1 -= fight.getJml1();
+            jml2 -= fight.getJml2();
         }
         this.fights.remove(fight);
     }

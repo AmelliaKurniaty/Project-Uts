@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
         prp = findViewById(R.id.perempuan);
         fightView = findViewById(R.id.recyclerView);
 
-
         //TODO event fab
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
                 int index = viewHolder.getAdapterPosition();
                 account.removeFight(index);
                 adapter.notifyDataSetChanged();
-                lk.setText(String.valueOf(account.getJml1()));
-                prp.setText(String.valueOf(account.getJml2()));
+//                lk.setText(String.valueOf(account.getJml1()));
+//                prp.setText(String.valueOf(account.getJml2()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -134,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
                 account.updateFight(index);
             }
             adapter.notifyDataSetChanged();
-            lk.setText(String.valueOf(account.getJml1()));
-            prp.setText(String.valueOf(account.getJml2()));
+//            lk.setText(String.valueOf(account.getJml1()));
+//            prp.setText(String.valueOf(account.getJml2()));
         }
     }
 

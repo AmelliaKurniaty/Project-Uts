@@ -21,7 +21,7 @@ public class Fight implements Parcelable {
 
     }
 
-    public Fight(String nama1, String nama2, String dojang1, String dojang2, int jml1, int jml2, Type type, Uri img1, Uri img2) {
+    public Fight(String nama1, String nama2, String dojang1, String dojang2, int jml1, int jml2, Type type,Uri img1, Uri img2) {
         this.nama1 = nama1;
         this.nama2 = nama2;
         this.dojang1 = dojang1;
@@ -118,12 +118,13 @@ public class Fight implements Parcelable {
     };
 
     protected Fight(Parcel in) {
-        nama1 = in.readString();
-        nama2 = in.readString();
-        dojang1 = in.readString();
-        dojang2 = in.readString();
-        jml1 = in.readInt();
-        jml2 = in.readInt();
+        this.nama1 = in.readString();
+        this.nama2 = in.readString();
+        this.dojang1 = in.readString();
+        this.dojang2 = in.readString();
+//        this.img1 = in.readB
+        this.jml1 = in.readInt();
+        this.jml2 = in.readInt();
         int tmpType = in.readInt();
         this.type = tmpType == -1 ? null : Type.values()[tmpType];
     }
@@ -140,6 +141,6 @@ public class Fight implements Parcelable {
         dest.writeString(this.dojang2);
         dest.writeInt(this.jml1);
         dest.writeInt(this.jml2);
-
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
     }
 }

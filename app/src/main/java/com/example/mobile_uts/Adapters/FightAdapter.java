@@ -51,13 +51,16 @@ public class FightAdapter extends RecyclerView.Adapter<FightAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            name1 = itemView.findViewById(R.id.nama1);
+            name2 = itemView.findViewById(R.id.nama2);
         }
 
         public void bind(final int index, final Fight item) {
             name1.setText(item.getNama1());
             name1.setTextColor(Color.parseColor("#DD1212"));
             name2.setText(item.getNama2());
-            name1.setTextColor(Color.parseColor("#20AD26"));
+            name2.setTextColor(Color.parseColor("#20AD26"));
         }
+
     }
 }

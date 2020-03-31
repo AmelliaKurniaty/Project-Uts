@@ -107,7 +107,7 @@ public class IsiDataActivity  extends AppCompatActivity {
             Fight.Type type = getCheckedType();
 
             item.setNama1(name1);
-            item.setNama1(name2);
+            item.setNama2(name2);
             item.setDojang1(dj1);
             item.setDojang2(dj2);
             //image 1
