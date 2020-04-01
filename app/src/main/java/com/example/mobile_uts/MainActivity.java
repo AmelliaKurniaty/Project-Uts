@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.mobile_uts.Adapters.FightAdapter;
 import com.example.mobile_uts.Models.Account;
 import com.example.mobile_uts.Models.Fight;
+import com.example.mobile_uts.Models.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements FightAdapter.OnItemFightListener{
-    public static final String FIGHT_KEY = "FIGHT";
+    private static final String FIGHT = "fights";
     public static final String INDEX_KEY = "INDEX";
     public static final int INSERT_REQUEST = 1;
     public static final int UPDATE_REQUEST = 2;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
     private FightAdapter adapter;
     private Account account;
     private RecyclerView fightView;
-    private TextView lk, prp;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,15 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lk = findViewById(R.id.laki);
-        prp = findViewById(R.id.perempuan);
+        //TODO session
+        session = Application.getSession();
+        if (!session.isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
         fightView = findViewById(R.id.recyclerView);
 
         //TODO event fab
@@ -49,13 +57,10 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, IsiDataActivity.class);
-                startActivity(intent);
+                intent.putExtra(FIGHT, new Fight());
+                startActivityForResult(intent, INSERT_REQUEST);
             }
         });
-
-        //TODO set Jumlah Laki & perempuan
-//        lk.setText(String.valueOf(account.getJml1()));
-//        prp.setText(String.valueOf(account.getJml2()));
 
         //TODO Set Adapter
         account = Application.getAccount();
@@ -77,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
                 int index = viewHolder.getAdapterPosition();
                 account.removeFight(index);
                 adapter.notifyDataSetChanged();
-//                lk.setText(String.valueOf(account.getJml1()));
-//                prp.setText(String.valueOf(account.getJml2()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -106,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id == R.id.action_logout) {
+            session.logout();
+            Intent intent2 = new Intent(this, LoginActivity.class);
+            startActivity(intent2);
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -114,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
     @Override
     public void onFightClicked(int index, Fight item) {
         Intent intent = new Intent(this, IsiDataActivity.class);
-        intent.putExtra(FIGHT_KEY, item);
+        intent.putExtra(FIGHT, item);
         //diganti index
         intent.putExtra(INDEX_KEY,index);
         startActivityForResult(intent, UPDATE_REQUEST);
@@ -123,17 +132,16 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_OK){
-            Fight fight = data.getParcelableExtra(FIGHT_KEY);
+        if (resultCode == RESULT_OK){
+            Fight fight = data.getParcelableExtra(FIGHT);
             if (requestCode == INSERT_REQUEST){
                 account.addFight(fight);
+
             }else if (requestCode == UPDATE_REQUEST){
                 int index = data.getIntExtra(INDEX_KEY,0);
                 account.updateFight(index, fight);
             }
             adapter.notifyDataSetChanged();
-//            lk.setText(String.valueOf(account.getJml1()));
-//            prp.setText(String.valueOf(account.getJml2()));
         }
     }
 
@@ -141,6 +149,4 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
-
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mobile_uts.Models.Account;
 import com.example.mobile_uts.Models.Fight;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class IsiDataActivity  extends AppCompatActivity {
 
     private RadioGroup typeRadioGroup;
     private Fight item;
+    Account account;
     private int index;
     Uri imageUri1, imageUri2;
     Bitmap bitmap1, bitmap2;
@@ -46,14 +48,11 @@ public class IsiDataActivity  extends AppCompatActivity {
         djRed = findViewById(R.id.dojang1);
         djBlue = findViewById(R.id.dojang2);
         typeRadioGroup = findViewById(R.id.group_type);
-
+        account = Application.getAccount();
         Bundle extras = getIntent().getExtras();
         if (extras != null){
-            item = extras.getParcelable(MainActivity.FIGHT_KEY);
+            item = extras.getParcelable(FIGHT);
             index = extras.getInt(MainActivity.INDEX_KEY,0);
-
-//            imgMerah = extras.getParcelable(IMG_1);
-//            imgBiru = extras.getParcelable(IMG_2);
 
             nameRed.setText(item.getNama1());
             nameBlue.setText(item.getNama2());
@@ -63,14 +62,20 @@ public class IsiDataActivity  extends AppCompatActivity {
             if (imageUri1 != null){
                 try {
                     Bitmap bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getImg1());
-                    Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getImg2());
                     imgMerah.setImageBitmap(bitmap1);
-
                 }catch (IOException e){
                     Toast.makeText(this, "Cant load image", Toast.LENGTH_SHORT).show();
                     Log.e("Image Insert", e.getMessage());
                 }
+            }else if (imageUri2 != null){
+                try {
+                    Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getImg2());
+                    imgMerah.setImageBitmap(bitmap2);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
             }
+
             if (item.getType() == Fight.Type.MALE){
                 typeRadioGroup.check(R.id.radio_male);
             }else if (item.getType() == Fight.Type.FEMALE){
@@ -102,21 +107,24 @@ public class IsiDataActivity  extends AppCompatActivity {
         String name2 = nameBlue.getText().toString().trim();
         String dj1 = djRed.getText().toString().trim();
         String dj2 = djBlue.getText().toString().trim();
+        Fight.Type type = getCheckedType();
 
         item.setNama1(name1);
         item.setNama2(name2);
         item.setDojang1(dj1);
         item.setDojang2(dj2);
+        item.setType(type);
         if (this.imageUri1 == null){
             item.setImg1(item.getImg1());
         }else if (this.imageUri2 == null){
             item.setImg2(item.getImg2());
         }
-
+    String nama = item.getNama1();
         Intent intent = new Intent();
         intent.putExtra(FIGHT, item);
         intent.putExtra(INDEX_KEY, index);
         setResult(RESULT_OK, intent);
+        Log.d("INFO", "nam 1 " + nama );
         finish();
     }
 
