@@ -21,13 +21,17 @@ import java.io.IOException;
 
 public class IsiDataActivity  extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getCanonicalName();
+    private static final String FIGHT = "fights";
+    private static final String INDEX_KEY = "index";
+    private static final int LOGIN_ADD = 1;
+    private static final int IMAGE_ADD = 2;
 
     private RadioGroup typeRadioGroup;
     private Fight item;
     private int index;
     Uri imageUri1, imageUri2;
     Bitmap bitmap1, bitmap2;
-    ImageView imgMerah, imageBiru;
+    ImageView imgMerah, imgBiru;
     EditText nameRed, nameBlue, djRed, djBlue;
 
     @Override
@@ -35,8 +39,8 @@ public class IsiDataActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_isidata);
 
-//        imgMerah = findViewById(R.id.img_merah);
-//        imageBiru = findViewById(R.id.img_biru);
+        imgMerah = findViewById(R.id.img_merah);
+        imgBiru = findViewById(R.id.img_biru);
         nameRed = findViewById(R.id.nama1);
         nameBlue = findViewById(R.id.nama2);
         djRed = findViewById(R.id.dojang1);
@@ -48,13 +52,25 @@ public class IsiDataActivity  extends AppCompatActivity {
             item = extras.getParcelable(MainActivity.FIGHT_KEY);
             index = extras.getInt(MainActivity.INDEX_KEY,0);
 
-//            imgMerah.setImageBitmap(item.getImg1());
-//            imgMerah.setImageBitmap(item.getImg2());
+//            imgMerah = extras.getParcelable(IMG_1);
+//            imgBiru = extras.getParcelable(IMG_2);
+
             nameRed.setText(item.getNama1());
             nameBlue.setText(item.getNama2());
             djRed.setText(item.getDojang1());
             djBlue.setText(item.getDojang2());
 
+            if (imageUri1 != null){
+                try {
+                    Bitmap bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getImg1());
+                    Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), item.getImg2());
+                    imgMerah.setImageBitmap(bitmap1);
+
+                }catch (IOException e){
+                    Toast.makeText(this, "Cant load image", Toast.LENGTH_SHORT).show();
+                    Log.e("Image Insert", e.getMessage());
+                }
+            }
             if (item.getType() == Fight.Type.MALE){
                 typeRadioGroup.check(R.id.radio_male);
             }else if (item.getType() == Fight.Type.FEMALE){
@@ -72,82 +88,60 @@ public class IsiDataActivity  extends AppCompatActivity {
     }
 
     public void handleMerah(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
 
     public void handleBiru(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 2);
     }
 
-    public void handleTambah(View view) {
-        int eror = 3;
-        if (typeRadioGroup.getCheckedRadioButtonId() == -1){
-            Toast.makeText(this, "Jenis Kelamin tidak boleh kosong", Toast.LENGTH_SHORT).show();
-            if (nameRed.getText().toString().isEmpty() && nameBlue.getText().toString().isEmpty()){
-                nameRed.setError("Nama tidak boleh kosong");
-                nameBlue.setError("Nama tidak boleh Kosong");
-                if (djRed.getText().toString().isEmpty() && djBlue.getText().toString().isEmpty()){
-                    djRed.setError("Dojang tidak boleh kosong");
-                    djBlue.setError("Dojang tidak boleh kosong");
-                }else {
-                    eror = -1;
-                }
-            }else {
-                eror = -1;
-            }
-        }else {
-            String name1 = nameRed.getText().toString();
-            String name2 = nameBlue.getText().toString();
-            String dj1 = djRed.getText().toString();
-            String dj2 = djBlue.getText().toString();
-//            Uri img1 = imageUri1.toString();
-//            Uri img2 = imageUri2.toString();
-            Fight.Type type = getCheckedType();
+    public void submit(View view){
+        String name1 = nameRed.getText().toString().trim();
+        String name2 = nameBlue.getText().toString().trim();
+        String dj1 = djRed.getText().toString().trim();
+        String dj2 = djBlue.getText().toString().trim();
 
-            item.setNama1(name1);
-            item.setNama2(name2);
-            item.setDojang1(dj1);
-            item.setDojang2(dj2);
-            //image 1
-            //image 2
-            item.setType(type);
-
-            Intent intent = new Intent();
-            intent.putExtra(MainActivity.FIGHT_KEY, item);
-            intent.putExtra(MainActivity.INDEX_KEY, index);
-            setResult(RESULT_OK, intent);
-            finish();
+        item.setNama1(name1);
+        item.setNama2(name2);
+        item.setDojang1(dj1);
+        item.setDojang2(dj2);
+        if (this.imageUri1 == null){
+            item.setImg1(item.getImg1());
+        }else if (this.imageUri2 == null){
+            item.setImg2(item.getImg2());
         }
+
+        Intent intent = new Intent();
+        intent.putExtra(FIGHT, item);
+        intent.putExtra(INDEX_KEY, index);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
         if (requestCode == 1) {
             if (data != null) {
                 try {
                     imageUri1 = data.getData();
-                    bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri1);
+                    Bitmap bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri1);
                     imgMerah.setImageBitmap(bitmap1);
+
                 } catch (IOException e) {
-                    Toast.makeText(this, "Can't Load Image", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }
         } else if (requestCode == 2) {
-            if (data != null) {
+            if (data != null){
                 try {
                     imageUri2 = data.getData();
-                    bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri2);
-                    imageBiru.setImageBitmap(bitmap2);
-                } catch (IOException e) {
-                    Toast.makeText(this, "Can't Load Image", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, e.getMessage());
+                    Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri2);
+                    imgBiru.setImageBitmap(bitmap2);
+                }catch (IOException e){
+                    e.printStackTrace();
                 }
             }
         }

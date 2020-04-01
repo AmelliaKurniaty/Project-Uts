@@ -53,13 +53,12 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
             }
         });
 
-        account = Application.getAccount();
-
         //TODO set Jumlah Laki & perempuan
 //        lk.setText(String.valueOf(account.getJml1()));
 //        prp.setText(String.valueOf(account.getJml2()));
 
         //TODO Set Adapter
+        account = Application.getAccount();
         adapter= new FightAdapter(account.getFights(), this);
         fightView.setAdapter(adapter);
 
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
                 account.addFight(fight);
             }else if (requestCode == UPDATE_REQUEST){
                 int index = data.getIntExtra(INDEX_KEY,0);
-                account.updateFight(index);
+                account.updateFight(index, fight);
             }
             adapter.notifyDataSetChanged();
 //            lk.setText(String.valueOf(account.getJml1()));

@@ -179,7 +179,7 @@
             android:text="TAMBAH"
             android:textColor="#ffffff"
             android:textSize="25sp"
-            android:onClick="handleTambah"
+            android:onClick="submit"
             android:background="#177A8F"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

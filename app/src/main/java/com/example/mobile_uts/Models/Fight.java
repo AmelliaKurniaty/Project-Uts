@@ -7,10 +7,8 @@ import android.os.Parcelable;
 public class Fight implements Parcelable {
     private String nama1, nama2;
     private String dojang1, dojang2;
-    private int jml1, jml2;
-    private Type type;
-
     private Uri img1, img2;
+    private Type type;
 
     public enum Type {
         EMPTY,
@@ -21,13 +19,11 @@ public class Fight implements Parcelable {
 
     }
 
-    public Fight(String nama1, String nama2, String dojang1, String dojang2, int jml1, int jml2, Type type,Uri img1, Uri img2) {
+    public Fight(String nama1, String nama2, String dojang1, String dojang2, Type type,Uri img1, Uri img2) {
         this.nama1 = nama1;
         this.nama2 = nama2;
         this.dojang1 = dojang1;
         this.dojang2 = dojang2;
-        this.jml1 = jml1;
-        this.jml2 = jml2;
         this.type = type;
         this.img1 = img1;
         this.img2 = img2;
@@ -89,22 +85,6 @@ public class Fight implements Parcelable {
         this.type = type;
     }
 
-    public int getJml1() {
-        return jml1;
-    }
-
-    public void setJml1(int jml1) {
-        this.jml1 = jml1;
-    }
-
-    public int getJml2() {
-        return jml2;
-    }
-
-    public void setJml2(int jml2) {
-        this.jml2 = jml2;
-    }
-
     public static final Creator<Fight> CREATOR = new Creator<Fight>() {
         @Override
         public Fight createFromParcel(Parcel in) {
@@ -122,9 +102,8 @@ public class Fight implements Parcelable {
         this.nama2 = in.readString();
         this.dojang1 = in.readString();
         this.dojang2 = in.readString();
-//        this.img1 = in.readB
-        this.jml1 = in.readInt();
-        this.jml2 = in.readInt();
+        this.img1 = in.readParcelable(Uri.class.getClassLoader());
+        this.img2 = in.readParcelable(Uri.class.getClassLoader());
         int tmpType = in.readInt();
         this.type = tmpType == -1 ? null : Type.values()[tmpType];
     }
@@ -139,8 +118,8 @@ public class Fight implements Parcelable {
         dest.writeString(this.nama2);
         dest.writeString(this.dojang1);
         dest.writeString(this.dojang2);
-        dest.writeInt(this.jml1);
-        dest.writeInt(this.jml2);
+        dest.writeParcelable(this.img1, flags);
+        dest.writeParcelable(this.img2, flags);
         dest.writeInt(this.type == null ? -1 : this.type.ordinal());
     }
 }

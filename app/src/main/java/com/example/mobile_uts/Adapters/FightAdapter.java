@@ -60,6 +60,14 @@ public class FightAdapter extends RecyclerView.Adapter<FightAdapter.ViewHolder> 
             name1.setTextColor(Color.parseColor("#DD1212"));
             name2.setText(item.getNama2());
             name2.setTextColor(Color.parseColor("#20AD26"));
+
+            // TODO aktivitas klik pada item
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFightClicked(index, item);
+                }
+            });
         }
 
     }
