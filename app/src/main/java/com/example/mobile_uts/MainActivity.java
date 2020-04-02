@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
             startActivity(intent);
             finish();
         }
-
-
         fightView = findViewById(R.id.recyclerView);
 
         //TODO event fab
@@ -117,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements FightAdapter.OnIt
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
